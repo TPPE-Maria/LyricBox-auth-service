@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
   servlet:
     context-path: /api/auth
 
@@ -10,8 +10,8 @@ spring:
 # JWT Configuration
 app:
   jwt:
-    secret: mySecretKey123456789012345678901234567890
-    expiration: 86400000 # 24 hours in milliseconds
+    secret: ${JWT_SECRET:mySecretKey123456789012345678901234567890}
+    expiration: ${JWT_EXPIRES_IN:86400000} # 24 hours in milliseconds
   user-service:
     url: ${USER_SERVICE_URL:http://localhost:8083}
 

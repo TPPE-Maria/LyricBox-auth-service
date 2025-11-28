@@ -32,7 +32,6 @@ public class AuthService {
         try {
             logger.info("Starting user registration for username: {}", registerRequest.getUsername());
             
-            // Call user service to create user (password will be hashed there)
             UserResponseDto userResponse = userServiceClient.createUser(registerRequest);
             
             logger.info("User registration successful for username: {}", registerRequest.getUsername());
@@ -48,18 +47,15 @@ public class AuthService {
         try {
             logger.info("Starting login attempt for identifier: {}", loginRequest.getUsernameOrEmail());
             
-            // Get user login data from user service
             UserServiceClient.UserLoginData userData = userServiceClient.getUserForLogin(loginRequest.getUsernameOrEmail());
             
             logger.debug("Retrieved user data for login: {}", userData.getUsername());
             
-            // Verify password (user service returns hashed password)
             if (!passwordEncoder.matches(loginRequest.getPassword(), userData.getPassword())) {
                 logger.warn("Invalid password attempt for user: {}", userData.getUsername());
                 throw new ResourceNotFoundException("Invalid credentials");
             }
 
-            // Generate JWT token
             String jwt = jwtUtil.generateToken(userData.getUsername(), userData.getId(), userData.getRole());
 
             logger.info("Login successful for user: {}", userData.getUsername());

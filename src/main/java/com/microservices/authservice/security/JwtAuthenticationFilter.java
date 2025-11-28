@@ -41,12 +41,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String role = jwtUtil.getRoleFromToken(jwt);
                 Long userId = jwtUtil.getUserIdFromToken(jwt);
                 
-                // Criar authorities baseado no role
                 List<GrantedAuthority> authorities = Collections.singletonList(
                     new SimpleGrantedAuthority("ROLE_" + role)
                 );
                 
-                // Criar principal customizado com informações do usuário
                 JwtUserPrincipal userPrincipal = new JwtUserPrincipal(userId, username, role);
                 
                 UsernamePasswordAuthenticationToken authentication = 
@@ -59,7 +57,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         } catch (Exception ex) {
             logger.error("Cannot set user authentication in security context", ex);
-            // Limpar contexto em caso de erro
             SecurityContextHolder.clearContext();
         }
         

@@ -83,7 +83,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleGlobalException(
             Exception ex, WebRequest request) {
         
-        // Log the actual exception for debugging
         System.err.println("Global Exception Handler caught: " + ex.getClass().getSimpleName() + " - " + ex.getMessage());
         ex.printStackTrace();
         
