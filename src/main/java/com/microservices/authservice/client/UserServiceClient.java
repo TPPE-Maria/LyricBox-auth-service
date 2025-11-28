@@ -25,14 +25,13 @@ public class UserServiceClient {
     public UserResponseDto createUser(RegisterRequestDto registerRequest) {
         logger.info("Calling user service to create user: {}", registerRequest.getUsername());
         
-        // Converter RegisterRequestDto para o formato esperado pelo user-service
+        // Converte RegisterRequestDto para o formato esperado pelo user-service
         Map<String, Object> createRequest = new HashMap<>();
         createRequest.put("username", registerRequest.getUsername());
         createRequest.put("email", registerRequest.getEmail());
         createRequest.put("password", registerRequest.getPassword());
         createRequest.put("name", registerRequest.getName());
-        // O user-service espera role como String que será convertido para enum automaticamente
-        // Usar role do request se fornecido, caso contrário usar USER como padrão
+
         String role = registerRequest.getRole() != null ? registerRequest.getRole().toUpperCase() : "USER";
         createRequest.put("role", role);
         
